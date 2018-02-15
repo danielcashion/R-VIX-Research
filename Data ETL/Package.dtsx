@@ -1,0 +1,104 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="2/15/2018 11:35:34 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="CASHIONLAPTOP"
+  DTS:CreatorName="CashionLaptop\dcashion"
+  DTS:DTSID="{C4895BC6-91BD-4889-B802-547FDAB3C122}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="13.0.2165.0"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="Package"
+  DTS:PackageType="5"
+  DTS:VersionBuild="2"
+  DTS:VersionGUID="{4F0876B5-9DE7-4ABE-84CB-A4A040B415BF}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[FTP Connection Manager]"
+      DTS:CreationName="FTP"
+      DTS:DTSID="{62654C43-ED51-40A2-9B1D-D2498A41B5B3}"
+      DTS:ObjectName="FTP Connection Manager">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="ftp.cmegroup.com:21">
+          <DTS:FtpConnection
+            DTS:ServerName="ftp.cmegroup.com"
+            DTS:TimeOut="5">
+            <DTS:Property
+              DTS:Name="ServerPassword"
+              Sensitive="1"
+              Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQy6+Qt94PEGS8aTN3agnpwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAh5+jgkkzzX3RuKvgJYai7YG0Rb6L6Vr/qBiu3ZDEMSgAAAAAOgAAAAAIAACAAAAA9VXGlU4DUv4mxAilwZYzT1akqNyPOReYUVxL6h1m08BAAAAC9+ssDPaX3iU3lZOc9GD09QAAAAOY1eZ9n1qpmNzIGgg/ylB6Y5rnik03FLX5aiM0zAvR4Zsa4BlrRVtuwt123D+gqD2UG+uXvZIIs0cSjskbe7NI</DTS:Property>
+          </DTS:FtpConnection>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[Temp]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{EDE98149-54FF-454C-9065-9D86D6D1A9F5}"
+      DTS:ObjectName="Temp">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:FileUsageType="2"
+          DTS:ConnectionString="C:\Temp" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:PackageParameters>
+    <DTS:PackageParameter
+      DTS:CreationName=""
+      DTS:DataType="8"
+      DTS:DTSID="{A6CE1503-76C5-49AC-BDCC-4CE777615C3B}"
+      DTS:ObjectName="ftplocation">
+      <DTS:Property
+        DTS:DataType="8"
+        DTS:Name="ParameterValue">ftp://ftp.cmegroup.com/pub/settle/stleqt</DTS:Property>
+    </DTS:PackageParameter>
+  </DTS:PackageParameters>
+  <DTS:Variables />
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Download CBOE Closing Prices"
+      DTS:CreationName="Microsoft.FtpTask"
+      DTS:Description="FTP Task"
+      DTS:DTSID="{EA9656C2-7B8B-444D-B3AD-489BBCFACEDB}"
+      DTS:ExecutableType="Microsoft.FtpTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Download CBOE Closing Prices"
+      DTS:TaskContact="FTP Task; Microsoft Corporation; SQL Server 2016; (c) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:PropertyExpression
+        DTS:Name="Connection">@[$Project::FTPTask_Connection]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <FtpData
+          TaskOperationType="Receive"
+          TaskLocalPath="Temp"
+          TaskRemotePath="/pub/settle/stleqt" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        <NodeLayout
+          Size="230.666666666667,42.6666666666667"
+          Id="Package\Download CBOE Closing Prices"
+          TopLeft="63.3333323895931,36.4912287570323" />
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
