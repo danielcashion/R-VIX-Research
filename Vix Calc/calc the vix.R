@@ -19,40 +19,41 @@
     URL <- "ftp://ftp.cmegroup.com/pub/settle/stleqt"
 
 # 'Get' the data
-    options_data <- getURL(URL, ftp.use.epsv = FALSE, dirlistonly = FALSE)
-    options_data <- read.csv(textConnection(options_data))
+    VIX_data <- getURL(URL, ftp.use.epsv = FALSE, dirlistonly = FALSE)
+    VIX_data <- read.csv(textConnection(VIX_data))
+    VIX_data <- read.table(VIX_data, sep = '\t', header = TRUE, fileEncoding = "UTF-16LE")
 
 # Function to convert the factors to numeric vectors
     as.numeric.factor <- function(x) { as.numeric(levels(x))[x] }
 
 # Clean the data read and convert all the columns to numeric vectors.
-    clean_options_data <- function(options_data) {
+    clean_VIX_data <- function(VIX_data) {
         oldw <- getOption("warn")
         options(warn = -1)
-        colnames(options_data) <- c("strike", "value")
-        options_data$value <- as.numeric.factor(options_data$value)
-        options_data$strike <- as.numeric.factor(options_data$strike)
-        options_data[is.na(options_data)] <- 0
+        colnames(VIX_data) <- c("strike", "value")
+        VIX_data$value <- as.numeric.factor(VIX_data$value)
+        VIX_data$strike <- as.numeric.factor(VIX_data$strike)
+        VIX_data[is.na(VIX_data)] <- 0
         options(warn = oldw)
-        options_data
+        VIX_data
     }
 
 #16-Mar is the near contract and 16-June is the far contract.
-F_near <- as.numeric(as.character(options_data[273, 6]))
-F_far <- as.numeric(as.character(options_data[274, 6]))
+F_near <- as.numeric(as.character(VIX_data[273, 6]))
+F_far <- as.numeric(as.character(VIX_data[274, 6]))
 
 #Taking third week options data as it is near to these contracts. 
-options_near_calls <- options_data[23873:24119, c(1, 6)]
-options_near_calls <- clean_options_data(options_near_calls)
+options_near_calls <- VIX_data[23873:24119, c(1, 6)]
+options_near_calls <- clean_VIX_data(options_near_calls)
 
-options_far_calls <- options_data[24599:24836, c(1, 6)]
-options_far_calls <- clean_options_data(options_far_calls)
+options_far_calls <- VIX_data[24599:24836, c(1, 6)]
+options_far_calls <- clean_VIX_data(options_far_calls)
 
-options_near_puts <- options_data[25646:25892, c(1, 6)]
-options_near_puts <- clean_options_data(options_near_puts)
+options_near_puts <- VIX_data[25646:25892, c(1, 6)]
+options_near_puts <- clean_VIX_data(options_near_puts)
 
-options_far_puts <- options_data[26372:26609, c(1, 6)]
-options_far_puts <- clean_options_data(options_far_puts)
+options_far_puts <- VIX_data[26372:26609, c(1, 6)]
+options_far_puts <- clean_VIX_data(options_far_puts)
 
 # Calculates the weights in the VIX formula
 calc_weight <- function(date1, date2, calculation_date, ndays) {
@@ -74,9 +75,9 @@ calc_delta_K <- function(K) {
 }
 
 # calculates the (delta-k/Square(K))*option_value over all options and gives the total sum. 
-total_options_value <- function(options_data) {
-    deltaK_by_K_square <- options_data$deltaK / (options_data$strike ^ 2)
-    return(sum(deltaK_by_K_square * options_data$value))
+total_options_value <- function(VIX_data) {
+    deltaK_by_K_square <- VIX_data$deltaK / (VIX_data$strike ^ 2)
+    return(sum(deltaK_by_K_square * VIX_data$value))
 }
 
 # calculates the forward price
