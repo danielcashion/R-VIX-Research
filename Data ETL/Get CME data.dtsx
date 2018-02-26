@@ -5,45 +5,46 @@
   DTS:CreationName="Microsoft.Package"
   DTS:CreatorComputerName="CASHIONLAPTOP"
   DTS:CreatorName="CashionLaptop\dcashion"
-  DTS:DTSID="{C4895BC6-91BD-4889-B802-547FDAB3C122}"
+  DTS:DTSID="{C43CFDAF-227B-4A9C-8846-08D384156C41}"
   DTS:ExecutableType="Microsoft.Package"
   DTS:LastModifiedProductVersion="13.0.2165.0"
   DTS:LocaleID="1033"
-  DTS:ObjectName="Package"
+  DTS:ObjectName="Get CME data"
   DTS:PackageType="5"
-  DTS:VersionBuild="2"
-  DTS:VersionGUID="{4F0876B5-9DE7-4ABE-84CB-A4A040B415BF}">
+  DTS:VersionBuild="9"
+  DTS:VersionGUID="{143C8EA2-3FF7-4FFC-A488-4EC1F8E2B730}">
   <DTS:Property
     DTS:Name="PackageFormatVersion">8</DTS:Property>
   <DTS:ConnectionManagers>
     <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[FTP Connection Manager]"
+      DTS:refId="Package.ConnectionManagers[C:\Temp Folder]"
+      DTS:CreationName="FILE"
+      DTS:DTSID="{DDB7C95E-0763-4397-9918-39AEBE5E5F7F}"
+      DTS:ObjectName="C:\Temp Folder">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:FileUsageType="2"
+          DTS:ConnectionString="C:\Temp" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[CME Group FTP]"
       DTS:CreationName="FTP"
-      DTS:DTSID="{62654C43-ED51-40A2-9B1D-D2498A41B5B3}"
-      DTS:ObjectName="FTP Connection Manager">
+      DTS:DTSID="{3ED75AF7-25B0-47B5-BEB5-604A41D13D41}"
+      DTS:ObjectName="CME Group FTP">
       <DTS:ObjectData>
         <DTS:ConnectionManager
           DTS:ConnectionString="ftp.cmegroup.com:21">
           <DTS:FtpConnection
             DTS:ServerName="ftp.cmegroup.com"
-            DTS:TimeOut="5">
+            DTS:TimeOut="5"
+            DTS:UsePassiveMode="True">
             <DTS:Property
               DTS:Name="ServerPassword"
               Sensitive="1"
-              Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQy6+Qt94PEGS8aTN3agnpwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAAAh5+jgkkzzX3RuKvgJYai7YG0Rb6L6Vr/qBiu3ZDEMSgAAAAAOgAAAAAIAACAAAAA9VXGlU4DUv4mxAilwZYzT1akqNyPOReYUVxL6h1m08BAAAAC9+ssDPaX3iU3lZOc9GD09QAAAAOY1eZ9n1qpmNzIGgg/ylB6Y5rnik03FLX5aiM0zAvR4Zsa4BlrRVtuwt123D+gqD2UG+uXvZIIs0cSjskbe7NI</DTS:Property>
+              Encrypted="1">AQAAANCMnd8BFdERjHoAwE/Cl+sBAAAAQy6+Qt94PEGS8aTN3agnpwAAAAAIAAAARABUAFMAAAAQZgAAAAEAACAAAADEHxjd9PicCUFMlVqj9OAVK/B1tC33aOZfkCdpocivNwAAAAAOgAAAAAIAACAAAABi4mPQgW53xFuRk33esBU17g7896zrmYaGC8/1G/oC7BAAAABaxB+1FPi0iJH1sjGdNFwNQAAAAEjuqPttc+UCmdEyWK9zy/HU2tH+TlfK+QZmFN36YZkrXzXsNhwfD1j6xxosjKAkZMdeBUM3ayOZe9pp9zNEcxY</DTS:Property>
           </DTS:FtpConnection>
         </DTS:ConnectionManager>
-      </DTS:ObjectData>
-    </DTS:ConnectionManager>
-    <DTS:ConnectionManager
-      DTS:refId="Package.ConnectionManagers[Temp]"
-      DTS:CreationName="FILE"
-      DTS:DTSID="{EDE98149-54FF-454C-9065-9D86D6D1A9F5}"
-      DTS:ObjectName="Temp">
-      <DTS:ObjectData>
-        <DTS:ConnectionManager
-          DTS:FileUsageType="2"
-          DTS:ConnectionString="C:\Temp" />
       </DTS:ObjectData>
     </DTS:ConnectionManager>
   </DTS:ConnectionManagers>
@@ -61,23 +62,22 @@
   <DTS:Variables />
   <DTS:Executables>
     <DTS:Executable
-      DTS:refId="Package\Download CBOE Closing Prices"
+      DTS:refId="Package\Download CME Data"
       DTS:CreationName="Microsoft.FtpTask"
-      DTS:Description="FTP Task"
-      DTS:DTSID="{EA9656C2-7B8B-444D-B3AD-489BBCFACEDB}"
+      DTS:Description="FTP CME Data"
+      DTS:DTSID="{D46A91E2-0DEF-446E-9ADB-D784F557A485}"
       DTS:ExecutableType="Microsoft.FtpTask"
       DTS:LocaleID="-1"
-      DTS:ObjectName="Download CBOE Closing Prices"
+      DTS:ObjectName="Download CME Data"
       DTS:TaskContact="FTP Task; Microsoft Corporation; SQL Server 2016; (c) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
       DTS:ThreadHint="0">
       <DTS:Variables />
-      <DTS:PropertyExpression
-        DTS:Name="Connection">@[$Project::FTPTask_Connection]</DTS:PropertyExpression>
       <DTS:ObjectData>
         <FtpData
+          ConnectionName="{3ED75AF7-25B0-47B5-BEB5-604A41D13D41}"
           TaskOperationType="Receive"
-          TaskLocalPath="Temp"
-          TaskRemotePath="/pub/settle/stleqt" />
+          TaskLocalPath="C:\Temp Folder"
+          TaskRemotePath="/settle/stleqt" />
       </DTS:ObjectData>
     </DTS:Executable>
   </DTS:Executables>
@@ -92,11 +92,24 @@
     design-time-name="Package">
     <LayoutInfo>
       <GraphLayout
-        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph">
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:s="clr-namespace:System;assembly=mscorlib">
         <NodeLayout
-          Size="230.666666666667,42.6666666666667"
-          Id="Package\Download CBOE Closing Prices"
-          TopLeft="63.3333323895931,36.4912287570323" />
+          Size="178.666666666667,42.6666666666667"
+          Id="Package\Download CME Data"
+          TopLeft="20.6458321614191,10.7280712808488" />
+        <GroupLayout
+          Text="Get and Clean Data"
+          ParentId="Package"
+          HeaderHeight="43"
+          IsExpanded="True"
+          PanelSize="264,190.666666666667"
+          Size="264,233.333333333334"
+          Id="ff33ef26-0812-48e9-a95c-bc279678a202"
+          TopLeft="57.8333323895931,5.5">
+          <GroupLayout.ChildrenIds>
+            <s:String>Package\Download CME Data</s:String>
+          </GroupLayout.ChildrenIds>
+        </GroupLayout>
       </GraphLayout>
     </LayoutInfo>
   </Package>
